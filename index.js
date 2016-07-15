@@ -1,13 +1,13 @@
-const express = require('express');
-const app = express();
-const googleImages = require('google-images');
-const mongo = require('mongodb');
-const mongoClient = mongo.MongoClient;
+var express = require('express');
+var app = express();
+var googleImages = require('google-images');
+var mongo = require('mongodb');
+var mongoClient = mongo.MongoClient;
 // mongodb://yimin:duyutian520@ds025752.mlab.com:25752/img-search-log
-const dburi = process.env.MONGO_URI; 
-const port = process.env.PORT || 8080;
+var dburi = process.env.MONGO_URI; 
+var port = process.env.PORT || 8080;
 
-let client = googleImages('008450044041122935554:o8llqhemmy8', 'AIzaSyCFN_UI2XLLmezSjnhWlIjDFpyp1vukt5c');
+var client = googleImages('008450044041122935554:o8llqhemmy8', 'AIzaSyCFN_UI2XLLmezSjnhWlIjDFpyp1vukt5c');
 
 app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/public/index.html');
@@ -15,8 +15,8 @@ app.get('/', (req, res) => {
 
 app.get('/api/imagesearch/:search', (req, res) => {
 	
-	let keywords = req.params.search;
-	let offset = req.query.offset;
+	var keywords = req.params.search;
+	var offset = req.query.offset;
 
 	client.search(keywords)
 	      .then(function(images) {
@@ -41,8 +41,8 @@ app.get('/api/latest/imagesearch/', (req, res) => {
 				if(err)
 					res.sendStatus(500);
 				else {
-					const n = docs.length > 10 ? 10 : docs.length;
-					let resData = docs.splice(0, n).map((elem) => {
+					var n = docs.length > 10 ? 10 : docs.length;
+					var resData = docs.splice(0, n).map((elem) => {
 						return { term: elem.term, when: elem.when };
 					});
 
